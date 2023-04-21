@@ -24,6 +24,56 @@ Add a GitHub workflow to deploy the service. Copy `deploy.example.yml` as `deplo
 - SERVICE_VERSION: the version of the service, for example `v1.0.1`.
 - STAGE: the stage of the server, for example `production` or `staging`.
 
+Serverless deploy outputs an API url. Use this URL in plugin configurations.
+
+To configure the CloudFront distribution to use the Lambda function as an origin see the example below.
+
+```terraform
+data "aws_lambda_function" "redirect" {
+  function_name = "name-from-serverless-deploy-output"
+}
+
+data "aws_lambda_function_url" "redirect" {
+  function_name = data.aws_lambda_function.redirect_productie.function_name
+}
+
+resource "aws_cloudfront_distribution" "website" {
+  origin {
+    origin_id                = "Content"
+    ...
+  }
+
+  origin {
+    domain_name = trimsuffix(replace(data.aws_lambda_function_url.redirect.function_url, "https://", ""), "/")
+    origin_id   = "Redirects"
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  origin_group {
+    origin_id = "Content"
+    failover_criteria {
+      status_codes = [403, 404]
+    }
+    member {
+      origin_id = "S3Content"
+    }
+    member {
+      origin_id = "Redirects"
+    }
+  }
+
+  default_cache_behavior {
+    target_origin_id           = "Content"
+    ...
+  }
+}
+```
+
 ## API
 
 The redirect model properties:
