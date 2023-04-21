@@ -1,0 +1,35 @@
+name: Deploy redirects service
+
+on:
+  push:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: api
+
+    steps:
+      - uses: actions/checkout@v3
+        repository: grrr-amsterdam/redirects-service
+        ref: SERVICE_VERSION
+        token: GITHUB_TOKEN
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: AWS_DEPLOY_ROLE
+          aws-region: AWS_REGION
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+
+      - run: yarn install
+
+      - run: npx serverless deploy --config serverless.yml --stage STAGE --region AWS_REGION

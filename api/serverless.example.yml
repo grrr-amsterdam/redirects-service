@@ -1,0 +1,54 @@
+service: ##SERVICE_NAME##
+
+configValidationMode: error
+
+params:
+  default:
+    default_domain: ##DEFAULT_DOMAIN##
+    dynamodb_table: ${self:service}-${opt:stage}-redirectsTable
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:GetItem"
+            - "dynamodb:PutItem"
+            - "dynamodb:DeleteItem"
+          Resource:
+            - Fn::GetAtt: [redirectsTable, Arn]
+  environment:
+    DEFAULT_DOMAIN: ${param:default_domain}
+    DYNAMODB_TABLE: ${param:dynamodb_table}
+
+functions:
+  api:
+    handler: api.handler
+    architecture: arm64
+    memorySize: 700
+    url: true
+    retentionInDays: 14
+
+  origin:
+    handler: origin.handler
+    architecture: arm64
+    memorySize: 700
+    url: true
+    retentionInDays: 14
+
+resources:
+  Resources:
+    redirectsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${param:dynamodb_table}
+        AttributeDefinitions:
+          - AttributeName: from
+            AttributeType: S
+        KeySchema:
+          - AttributeName: from
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
