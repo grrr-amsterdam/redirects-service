@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - working-directory: "redirects"
+          - working-directory: "api"
             node: "18.x"
 
     defaults:
