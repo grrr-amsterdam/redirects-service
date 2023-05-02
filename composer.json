@@ -1,0 +1,37 @@
+{
+  "name": "grrr-amsterdam/redirects",
+  "description": "Manage website redirects from WordPress or Laravel Nova.",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "autoload": {
+    "psr-4": {
+      "Grrr\\Redirects\\Nova\\": "nova-plugin/src/",
+      "Grrr\\Redirects\\WordPress\\": "wordpress-plugin/src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Martijn Gastkemper",
+      "email": "martijn.gastkemper@grrr.nl"
+    },
+    {
+      "name": "Harmen Janssen",
+      "email": "harmen.janssen@grrr.nl"
+    }
+  ],
+  "require": {
+    "php": ">=8.0.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Grrr\\Redirects\\Nova\\ToolServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
