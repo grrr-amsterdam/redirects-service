@@ -1,9 +1,9 @@
 <?php
 
-namespace Grrr\Redirects\Http\Middleware;
+namespace Grrr\Redirects\Nova\Http\Middleware;
 
 use Laravel\Nova\Nova;
-use Grrr\Redirects\Redirects;
+use Grrr\Redirects\Nova\Redirects;
 
 class Authorize
 {
