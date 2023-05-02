@@ -1,12 +1,8 @@
 <?php
 
-namespace Grrr\Redirects;
+namespace Grrr\Redirects\Nova;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Events\ServingNova;
-use Laravel\Nova\Nova;
-use Grrr\Redirects\Http\Middleware\Authorize;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -17,31 +13,17 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'redirects');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'nova-redirects');
 
-        $this->app->booted(function () {
-            $this->routes();
-        });
-
-        Nova::serving(function (ServingNova $event) {
-            //
-        });
-    }
-
-    /**
-     * Register the tool's routes.
-     *
-     * @return void
-     */
-    protected function routes()
-    {
-        if ($this->app->routesAreCached()) {
-            return;
-        }
-
-        Route::middleware(['nova', Authorize::class])
-                ->prefix('nova-vendor/redirects')
-                ->group(__DIR__.'/../routes/api.php');
+        $this->publishes(
+            [
+                __DIR__ . '/../config/nova-redirects.php' => config_path(
+                    'nova-redirects.php'
+                ),
+            ],
+            'config'
+        );
     }
 
     /**
@@ -51,6 +33,9 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/nova-redirects.php',
+            'nova-redirects'
+        );
     }
 }
