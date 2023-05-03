@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,12 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create(config('nova-redirects.table_name'), function (Blueprint $table) {
+        Schema::create("grrr_redirects", function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('from');
-            $table->string('to');
-            $table->boolean('permanently');
+            $table->string("from")->unique();
+            $table->string("to");
+            $table->boolean("permanently");
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('nova-redirects.table_name'));
+        Schema::dropIfExists("grrr_redirects");
     }
 };
