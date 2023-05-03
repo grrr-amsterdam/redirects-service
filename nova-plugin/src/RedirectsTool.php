@@ -16,5 +16,4 @@ class RedirectsTool extends Tool
     {
         Nova::resources([RedirectResource::class]);
     }
-
 }

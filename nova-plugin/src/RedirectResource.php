@@ -21,30 +21,28 @@ class RedirectResource extends Resource
      *
      * @var string
      */
-    public static $title = 'from';
+    public static $title = "from";
 
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'from',
-    ];
+    public static $search = ["from"];
 
     public static function label(): string
     {
-        return __('nova-redirects::nova-redirects.label');
+        return strval(__("nova-redirects::nova-redirects.label"));
     }
 
     public static function singularLabel(): string
     {
-        return __('nova-redirects::nova-redirects.singularLabel');
+        return strval(__("nova-redirects::nova-redirects.singularLabel"));
     }
 
     public static function uriKey()
     {
-        return 'grrr-redirect';
+        return "grrr-redirect";
     }
     /**
      * Get the fields displayed by the resource.
@@ -55,11 +53,42 @@ class RedirectResource extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make(__('nova-redirects::nova-redirects.fields.from'), 'from')->rules(['required']),
-            Text::make(__('nova-redirects::nova-redirects.fields.to'), 'to')->rules(['required']),
-            Boolean::make(__('nova-redirects::nova-redirects.fields.permanently'), 'permanently')->rules(['required'])->help(
-                __('nova-redirects::nova-redirects.fields.permanent_help')
-            )->default(true)
+            Text::make(__("nova-redirects::nova-redirects.fields.from"), "from")
+                ->rules(["required"])
+                ->creationRules("unique:grrr_redirects,from")
+                ->updateRules("unique:grrr_redirects,from,{{resourceId}}")
+                ->fillUsing(function ($request, $model, $attribute) {
+                    $value = $request->input($attribute);
+                    if (!str_starts_with($value, "/")) {
+                        $value = "/{$value}";
+                    }
+                    $model->{$attribute} = $value;
+                }),
+            Text::make(__("nova-redirects::nova-redirects.fields.to"), "to")
+                ->rules(["required"])
+                ->fillUsing(function ($request, $model, $attribute) {
+                    $value = $request->input($attribute);
+                    if (
+                        !str_starts_with($value, "/") &&
+                        !str_starts_with($value, "http")
+                    ) {
+                        $value = "/{$value}";
+                    }
+                    $model->{$attribute} = $value;
+                }),
+            Boolean::make(
+                __("nova-redirects::nova-redirects.fields.permanently"),
+                "permanently"
+            )
+                ->rules(["required"])
+                ->help(
+                    strval(
+                        __(
+                            "nova-redirects::nova-redirects.fields.permanent_help"
+                        )
+                    )
+                )
+                ->default(true),
         ];
     }
 
@@ -107,4 +136,3 @@ class RedirectResource extends Resource
         return [];
     }
 }
-

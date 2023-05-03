@@ -1,0 +1,11 @@
+includes:
+
+
+parameters:
+    checkMissingIterableValueType: false
+
+    paths:
+        - nova-plugin
+        - wordpress-plugin
+
+    level: 9
