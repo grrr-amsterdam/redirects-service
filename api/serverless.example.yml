@@ -30,14 +30,14 @@ functions:
     architecture: arm64
     memorySize: 700
     url: true
-    retentionInDays: 14
+    logRetentionInDays: 14
 
   origin:
     handler: origin.handler
     architecture: arm64
     memorySize: 700
     url: true
-    retentionInDays: 14
+    logRetentionInDays: 14
 
 resources:
   Resources:
