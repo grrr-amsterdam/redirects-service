@@ -8,6 +8,10 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - name: Checkout redirects-services
         uses: actions/checkout@v3
@@ -42,4 +46,4 @@ jobs:
         working-directory: api
         run: |
           cp ../app/redirects/serverless.yml .
-          npx serverless deploy --config ../app/serverless.yml --stage STAGE --region AWS_REGION
+          npx serverless deploy --config serverless.yml --stage STAGE --region AWS_REGION
