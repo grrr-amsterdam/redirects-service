@@ -7,6 +7,9 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Resource;
 
+/**
+ * @extends Resource<\Grrr\Redirects\Nova\Models\Redirect>
+ */
 class RedirectResource extends Resource
 {
     /**
@@ -32,12 +35,16 @@ class RedirectResource extends Resource
 
     public static function label(): string
     {
-        return strval(__("nova-redirects::nova-redirects.label"));
+        /** @var string */
+        $label = __("nova-redirects::nova-redirects.label");
+        return strval($label);
     }
 
     public static function singularLabel(): string
     {
-        return strval(__("nova-redirects::nova-redirects.singularLabel"));
+        /** @var string */
+        $label = __("nova-redirects::nova-redirects.singularLabel");
+        return strval($label);
     }
 
     public static function uriKey()
@@ -52,12 +59,15 @@ class RedirectResource extends Resource
      */
     public function fields(Request $request)
     {
+        /** @var string */
+        $helpText = __("nova-redirects::nova-redirects.fields.permanent_help");
         return [
             Text::make(__("nova-redirects::nova-redirects.fields.from"), "from")
                 ->rules(["required"])
                 ->creationRules("unique:grrr_redirects,from")
                 ->updateRules("unique:grrr_redirects,from,{{resourceId}}")
                 ->fillUsing(function ($request, $model, $attribute) {
+                    /** @var string */
                     $value = $request->input($attribute);
                     if (!str_starts_with($value, "/")) {
                         $value = "/{$value}";
@@ -67,6 +77,7 @@ class RedirectResource extends Resource
             Text::make(__("nova-redirects::nova-redirects.fields.to"), "to")
                 ->rules(["required"])
                 ->fillUsing(function ($request, $model, $attribute) {
+                    /** @var string */
                     $value = $request->input($attribute);
                     if (
                         !str_starts_with($value, "/") &&
@@ -81,13 +92,7 @@ class RedirectResource extends Resource
                 "permanently"
             )
                 ->rules(["required"])
-                ->help(
-                    strval(
-                        __(
-                            "nova-redirects::nova-redirects.fields.permanent_help"
-                        )
-                    )
-                )
+                ->help(strval($helpText))
                 ->default(true),
         ];
     }
