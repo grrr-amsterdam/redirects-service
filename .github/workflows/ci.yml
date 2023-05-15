@@ -44,7 +44,7 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
-          composer config --ansi -- http-basic.nova.laravel.com "laravel+subsidieportaal@grrr.nl" "${{ secrets.NOVA_PASSWORD }}"
+          composer config --ansi -- http-basic.nova.laravel.com "laravel@grrr.nl" "${{ secrets.NOVA_PASSWORD }}"
           composer install --prefer-dist --no-interaction --ansi
 
       - name: Run static analysis
