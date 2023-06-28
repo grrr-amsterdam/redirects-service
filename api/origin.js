@@ -58,7 +58,11 @@ exports.handler = async (event) => {
         return not_found();
       }
 
-      let to = `${response.Item.to.S}?${event.rawQueryString}`;
+      let to = response.Item.to.S;
+
+      if (event.rawQueryString) {
+        to += `?${event.rawQueryString}`;
+      }
 
       if (!to.startsWith("http")) {
         to = `${defaultDomain}${to}`;
