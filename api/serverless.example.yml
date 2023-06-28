@@ -2,6 +2,13 @@ service: ##SERVICE_NAME##
 
 configValidationMode: error
 
+package:
+  patterns:
+    - "api.js"
+    - "node_modules/**"
+    - "origin.js"
+    - "src/**"
+
 params:
   default:
     default_domain: ##DEFAULT_DOMAIN##
