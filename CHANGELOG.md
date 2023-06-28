@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.1
+
+- Only append question mark when there is a query string.
+
 ## v2.1
 
 - Copy the `package.patterns` section from `api/serverless.example.yml` to reduce the Lambda package size.
