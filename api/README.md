@@ -78,17 +78,19 @@ resource "aws_cloudfront_distribution" "website" {
 
 The redirect model properties:
 
-- from: string starting with a slash
-- to: string starting with a slash or a full URL
-- permanently: boolean to indicate if the redirect is permanent (308) or temporary (307). Default value is false.
+- from: string with a leading and trailing[^1] slash.
+- to: string with a leading slash or a full URL starting with http. Trailing slash is optional.
+- permanently: boolean to indicate if the redirect is permanent (308) or temporary (307). Default value is false, so temporary.
+
+[^1]: Trailing slashes are not necessary. Both URLs will be redirected, but we prefer URLs with a trailing slash. The front-end uses URLs with a trailing slash.
 
 Create or update a redirect:
 
 ```
 POST /
 {
-  "from": "/old-url",
-  "to": "/new-url"
+  "from": "/old-url/",
+  "to": "/new-url/"
   "permanently": true
 }
 ```
@@ -98,6 +100,6 @@ Delete a redirect:
 ```
 DELETE /
 {
-    "from": "/old-url"
+    "from": "/old-url/"
 }
 ```

@@ -4,18 +4,31 @@ const {
   redirect,
   internal_server_error,
 } = require("./src/responses");
-/**
- * - Remove trailing /index.html
- */
-const preparePath = (url) => url.replace(/\/index\.html$/, "");
 
 const client = new DynamoDBClient();
 
 const defaultDomain = process.env.DEFAULT_DOMAIN;
 
-exports.handler = async (event) => {
-  const path = preparePath(event.rawPath);
+/**
+ * - Remove trailing /index.html
+ */
+const preparePath = (url) => url.replace(/\/index\.html$/, "");
 
+const createPathWithTrailingSlash = (path) => {
+  if (!path.endsWith("/")) {
+    return `${path}/`;
+  }
+  return path;
+};
+
+const createPathWithoutTrailingSlash = (path) => {
+  if (path.endsWith("/")) {
+    return path.substring(0, path.length - 1);
+  }
+  return path;
+};
+
+const fetchRedirect = (path) => {
   const input = {
     TableName: process.env.DYNAMODB_TABLE,
     Key: {
@@ -25,8 +38,21 @@ exports.handler = async (event) => {
     },
   };
 
-  return await client
-    .send(new GetItemCommand(input))
+  return client.send(new GetItemCommand(input));
+};
+
+exports.handler = async (event) => {
+  const path = preparePath(event.rawPath);
+
+  const pathWithTrailingSlash = createPathWithTrailingSlash(path);
+
+  return fetchRedirect(pathWithTrailingSlash)
+    .then((response) => {
+      if (!response.Item) {
+        return fetchRedirect(createPathWithoutTrailingSlash(path));
+      }
+      return response;
+    })
     .then((response) => {
       if (!response.Item) {
         return not_found();
