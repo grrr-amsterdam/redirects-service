@@ -29,6 +29,10 @@ const createPathWithoutTrailingSlash = (path) => {
 };
 
 const fetchRedirect = (path) => {
+  // Skip empty paths (homepage), because we can't fetch a redirect that's just an empty string.
+  if (path === "") {
+    return {};
+  }
   const input = {
     TableName: process.env.DYNAMODB_TABLE,
     Key: {
