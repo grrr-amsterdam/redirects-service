@@ -4,6 +4,7 @@ configValidationMode: error
 
 package:
   patterns:
+    - "!**"
     - "api.js"
     - "node_modules/**"
     - "origin.js"
