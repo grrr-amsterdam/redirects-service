@@ -17,9 +17,15 @@ exports.handler = async (event) => {
     return not_found();
   }
 
-  const method = event.requestContext.http.method;
+  let body = null;
 
-  const body = JSON.parse(event.body);
+  try {
+    body = JSON.parse(event.body);
+  } catch (error) {
+    return bad_request("Invalid JSON: " + error.message);
+  }
+
+  const method = event.requestContext.http.method;
 
   if (method === "POST") {
     return await handlePost(body);
