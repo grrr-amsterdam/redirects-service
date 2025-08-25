@@ -81,7 +81,7 @@ exports.handler = async (event) => {
     .catch((error) => {
       console.error(error);
       return internal_server_error(
-        `Error fetching redirect for path: "${path}"`
+        `Error fetching redirect for path: "${path}"`,
       );
     });
 };
