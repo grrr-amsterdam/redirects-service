@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@prettier/plugin-php": "^0.19.4",
-    "prettier": "^2.8.8"
+    "@prettier/plugin-php": "^0.19.7",
+    "prettier": "^3.1.0"
   }
 }

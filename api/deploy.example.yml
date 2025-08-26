@@ -14,14 +14,14 @@ jobs:
 
     steps:
       - name: Checkout redirects-services
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: grrr-amsterdam/redirects-service
           ref: SERVICE_VERSION
           token: GITHUB_TOKEN
 
       - name: Checkout app
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: app
 
@@ -32,9 +32,9 @@ jobs:
           aws-region: AWS_REGION
 
       - name: Install NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "yarn"
           cache-dependency-path: api/yarn.lock
 

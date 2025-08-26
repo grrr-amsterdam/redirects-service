@@ -11,15 +11,15 @@ jobs:
       matrix:
         include:
           - working-directory: "api"
-            node: "18.x"
+            node: "20.x"
 
     defaults:
       run:
         working-directory: ${{ matrix.working-directory }}
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: "yarn"
@@ -31,10 +31,10 @@ jobs:
 
   static-analysis:
     name: Static analysis
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: "8.0"
