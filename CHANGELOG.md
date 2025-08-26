@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.0
+
+- Upgrade to Node.js 20 runtime for improved performance and security.
+
 ## v2.1.1
 
 - Only append question mark when there is a query string.
