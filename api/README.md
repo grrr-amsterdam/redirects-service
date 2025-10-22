@@ -13,7 +13,7 @@ The service is deployed using [Serverless](https://serverless.com/). To deploy t
 
 Create a folder in you project repository. And copy `serverless.example.yml` as `serverless.yml` into it. Fill in the blanks:
 
-- SERVICE_NAME: the name of the service, when running multiple clients in a AWS account use the client name in it.
+- SERVICE_NAME: the name of the service, when running multiple clients in an AWS account use the client name in it.
 - DEFAULT_DOMAIN: redirects without a domain will be suffixed with this domain.
 
 Add a GitHub workflow to deploy the service. Copy `deploy.example.yml` as `deploy.yml` into the `.github/workflows` folder. Fill in the blanks:
