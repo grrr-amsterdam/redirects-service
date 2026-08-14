@@ -8,14 +8,14 @@ Een microservice die website-redirects beheert en uitvoert. CMS'en sturen redire
 
 - `api/` — AWS Lambda (Node 20, plain JavaScript, geen framework) met twee endpoints: de API (schrijft redirects naar DynamoDB) en de origin (leest redirects en geeft een redirect-response). Deployment via Serverless Framework; projecten kopiëren `serverless.example.yml` en `deploy.example.yml` naar hun eigen repo.
 - `nova-plugin/` — Laravel Nova-tool (PHP ≥ 8.0, `Grrr\Redirects\Nova`) die een redirects-resource toevoegt aan Nova en wijzigingen naar de API stuurt.
-- `wordpress-plugin/` — WordPress-plugin (`Grrr\Redirects\WordPress`) die een redirects-posttype toevoegt en wijzigingen naar de API stuurt.
+- `wordpress-plugin/` — bevat alleen een verwijzing: de WordPress-plugin wordt onderhouden in [grrr-amsterdam/wordpress-redirects-service-plugin](https://github.com/grrr-amsterdam/wordpress-redirects-service-plugin). Wijzigingen aan de WordPress-plugin horen dáár, niet in deze repo.
 - Redirect-model: `from` (met leading én trailing slash), `to` (leading slash of volledige URL), `permanently` (default `false`; permanent = 308, tijdelijk = 307).
 
 ## Tooling en commando's
 
 - Format: `npx prettier --write .` (root-config, inclusief `@prettier/plugin-php` voor PHP-bestanden)
 - Format-check (zoals CI): in `api/` draait CI `npx prettier --check .`
-- Statische analyse: `composer static-analysis` (PHPStan level 9 over `nova-plugin` en `wordpress-plugin`)
+- Statische analyse: `composer static-analysis` (PHPStan level 9; de config noemt ook `wordpress-plugin`, maar daar staat geen code)
 - Dependencies: `yarn install` in `api/`; `composer install` in de root (vereist Nova-credentials voor nova.laravel.com)
 - Er zijn geen geautomatiseerde tests; CI draait alleen Prettier en PHPStan
 
