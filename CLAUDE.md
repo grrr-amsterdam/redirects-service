@@ -7,7 +7,7 @@ Dit bestand geldt voor iedereen die Claude Code in deze repo gebruikt. Lees het 
 Een microservice die website-redirects beheert en uitvoert. CMS'en sturen redirects naar een API die ze opslaat in DynamoDB; een CloudFront-origin voert de redirects uit (301/307/308) wanneer de content-origin een 404 teruggeeft. De repo bevat drie componenten:
 
 - `api/` — AWS Lambda (Node 20, plain JavaScript, geen framework) met twee endpoints: de API (schrijft redirects naar DynamoDB) en de origin (leest redirects en geeft een redirect-response). Deployment via Serverless Framework; projecten kopiëren `serverless.example.yml` en `deploy.example.yml` naar hun eigen repo.
-- `nova-plugin/` — Laravel Nova-tool (PHP ≥ 8.0, `Grrr\Redirects\Nova`) die een redirects-resource toevoegt aan Nova en wijzigingen naar de API stuurt.
+- `nova-plugin/` — Laravel Nova-tool (PHP ≥ 8.0, `Grrr\Redirects\Nova`) die een redirects-resource toevoegt aan Nova en wijzigingen naar de API stuurt. **Wordt door geen enkel project gebruikt** (onderzocht in augustus 2026, zie [het rapport](https://claude.ai/code/artifact/7601d7c5-6463-454a-b70b-64c4091add4f)) en wordt waarschijnlijk in de toekomst verwijderd — steek hier geen werk in zonder overleg.
 - `wordpress-plugin/` — bevat alleen een verwijzing: de WordPress-plugin wordt onderhouden in [grrr-amsterdam/wordpress-redirects-service-plugin](https://github.com/grrr-amsterdam/wordpress-redirects-service-plugin). Wijzigingen aan de WordPress-plugin horen dáár, niet in deze repo.
 - Redirect-model: `from` (met leading én trailing slash), `to` (leading slash of volledige URL), `permanently` (default `false`; permanent = 308, tijdelijk = 307).
 
