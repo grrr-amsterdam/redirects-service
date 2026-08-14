@@ -9,7 +9,7 @@
   "dependencies": {},
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.474.0",
-    "prettier": "^3.1.0",
-    "serverless": "^3.40.0"
+    "osls": "^3.77.0",
+    "prettier": "^3.1.0"
   }
 }
