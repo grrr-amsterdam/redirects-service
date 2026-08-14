@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0
+
+- Upgrade to the Node.js 24 runtime (current LTS); Node.js 20 is deprecated on AWS Lambda since April 2026.
+- Replace the unmaintained Serverless Framework v3 with the [osls](https://github.com/oss-serverless/serverless) fork, which supports the `nodejs24.x` runtime and provides the same `serverless` CLI.
+- Breaking: projects upgrading to this version must set `runtime: nodejs24.x` in their copied `serverless.yml` and `node-version: "24"` in their deploy workflow (`yarn install` fails on older Node versions due to the `engines` requirement).
+
 ## v2.2.0
 
 - Upgrade to Node.js 20 runtime for improved performance and security.
