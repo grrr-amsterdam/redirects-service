@@ -17,7 +17,7 @@ params:
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  runtime: nodejs24.x
   iam:
     role:
       statements:
